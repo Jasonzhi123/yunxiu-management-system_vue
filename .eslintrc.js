@@ -11,8 +11,8 @@ module.exports = {
     '@vue/airbnb',
   ],
   rules: {
-    // 'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-    // 'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+    'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'import/extensions': 0, // import不需要写文件扩展名
     'import/no-unresolved': 0,
     // 'import/no-duplicates': 0,

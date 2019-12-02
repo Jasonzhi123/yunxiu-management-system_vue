@@ -13,7 +13,7 @@ module.exports = {
       .set('@', resolve('src'))
       .set('lin', resolve('src/lin'))
       .set('assets', resolve('src/assets'))
-      .set('@c'，resolve('src/components'))
+      .set('@c', resolve('src/components'))
     config.module
       .rule('md')
       .test(/\.md$/)

@@ -58,14 +58,10 @@ export default {
       }
     },
     async getInformation() {
-      try {
-        // 尝试获取当前用户信息
-        const user = await User.getAuths()
-        this.setUserAndState(user)
-        this.setUserAuths(user.auths)
-      } catch (e) {
-        console.log(e)
-      }
+      // 尝试获取当前用户信息
+      const user = await User.getAuths()
+      this.setUserAndState(user)
+      this.setUserAuths(user.auths)
     },
     async register() {
       const obj = {
@@ -76,12 +72,8 @@ export default {
           email: this.email,
         },
       }
-      try {
-        await User.register(obj)
-        this.$message.success('注册成功！')
-      } catch (e) {
-        console.log(e)
-      }
+      await User.register(obj)
+      this.$message.success('注册成功！')
     },
     ...mapActions(['setUserAndState']),
     ...mapMutations({

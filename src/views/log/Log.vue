@@ -1,32 +1,28 @@
 <template>
   <div class="log">
     <sticky-top>
-    <div class="log-header">
-      <div class="header-left">
-        <p class="title">日志信息</p>
+      <div class="log-header">
+        <div class="header-left">
+          <p class="title">日志信息</p>
+        </div>
+        <div class="header-right" v-auth="'搜索日志'">
+          <lin-search @query="onQueryChange" ref="searchKeyword" />
+          <el-dropdown size="medium" style="margin: 0 10px;" @command="handleCommand" v-auth="'查询日志记录的用户'">
+            <el-button size="medium">
+              {{searchUser ? searchUser : '全部人员'}}
+              <i class="el-icon-arrow-down el-icon--right"></i>
+            </el-button>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item :command="['全部人员']">全部人员</el-dropdown-item>
+              <el-dropdown-item icon="el-icon-user-solid" v-for="(user, index) in users" :key="index" :command="[user]">{{user}}
+              </el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+          <lin-date-picker @dateChange="handleDateChange" ref="searchDate" class="date">
+          </lin-date-picker>
+        </div>
       </div>
-      <div class="header-right" v-auth="'搜索日志'">
-        <lin-search @query="onQueryChange" ref="searchKeyword" />
-        <el-dropdown  size="medium" style="margin: 0 10px;" @command="handleCommand" v-auth="'查询日志记录的用户'">
-          <el-button  size="medium">
-            {{searchUser ? searchUser : '全部人员'}}
-            <i class="el-icon-arrow-down el-icon--right"></i>
-          </el-button>
-          <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item :command="['全部人员']">全部人员</el-dropdown-item>
-            <el-dropdown-item
-              icon="el-icon-user-solid"
-              v-for="(user, index) in users"
-              :key="index"
-              :command="[user]">{{user}}
-            </el-dropdown-item>
-          </el-dropdown-menu>
-        </el-dropdown>
-        <lin-date-picker @dateChange="handleDateChange" ref="searchDate" class="date">
-        </lin-date-picker>
-      </div>
-    </div>
-    <el-divider v-if="!keyword"></el-divider>
+      <el-divider v-if="!keyword"></el-divider>
     </sticky-top>
     <transition name="fade">
       <div class="search" v-if="keyword">
@@ -257,11 +253,10 @@ export default {
 
 <style lang="scss" scoped>
 .log /deep/ .el-button {
-  padding-top:10px;
-  padding-bottom:10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 .log {
-
   .log-header {
     display: flex;
     justify-content: space-between;
@@ -296,7 +291,7 @@ export default {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    margin-top:24px;
+    margin-top: 24px;
 
     .search-tip {
       margin-left: 40px;
@@ -339,7 +334,7 @@ export default {
         position: relative;
 
         &:before {
-          content: "";
+          content: '';
           width: 1px;
           top: 7px;
           bottom: -17px;
@@ -353,7 +348,7 @@ export default {
         }
 
         .point-time {
-          content: "";
+          content: '';
           position: absolute;
           width: 10px;
           height: 10px;
