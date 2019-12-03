@@ -2,20 +2,18 @@ import '@babel/polyfill'
 import Vue from 'vue'
 import ElementUI from 'element-ui'
 
-import '@/lin/mixin'
-import '@/lin/filter'
-import '@/lin/plugins'
-import '@/lin/directives'
+import '@lin/mixin'
+import '@lin/filter'
+import '@lin/plugins'
+import '@lin/directives'
 
 import CollapseTransition from 'element-ui/lib/transitions/collapse-transition'
+import StickyTop from '@c/base/sticky-top/sticky-top'
+import LIcon from '@c/base/icon/lin-icon'
+import SourceCode from '@c/base/source-code/source-code'
 import router from '@/router'
 import store from '@/store'
 import App from '@/App.vue'
-
-import StickyTop from '@/components/base/sticky-top/sticky-top'
-import LIcon from '@/components/base/icon/lin-icon'
-import SourceCode from '@/components/base/source-code/source-code'
-
 
 import '@/assets/styles/index.scss' // eslint-disable-line
 import '@/assets/styles/realize/element-variables.scss'

@@ -12,6 +12,7 @@ module.exports = {
     config.resolve.alias
       .set('@', resolve('src'))
       .set('lin', resolve('src/lin'))
+      .set('@lin', resolve('src/lin'))
       .set('assets', resolve('src/assets'))
       .set('@c', resolve('src/components'))
     config.module

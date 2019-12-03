@@ -2,21 +2,9 @@
   <div class="container">
     <div class="title">新建分组信息</div>
     <el-row>
-      <el-col
-        :lg="16"
-        :md="20"
-        :sm="24"
-        :xs="24">
+      <el-col :lg="16" :md="20" :sm="24" :xs="24">
         <div class="content">
-          <el-form
-            status-icon
-            :rules="rules"
-            :model="form"
-            ref="form"
-            label-position="right"
-            label-width="100px"
-            v-loading="loading"
-            @submit.native.prevent>
+          <el-form status-icon :rules="rules" :model="form" ref="form" label-position="right" label-width="100px" v-loading="loading" @submit.native.prevent>
             <el-form-item label="分组名称" prop="name">
               <el-input size="medium" clearable v-model="form.name"></el-input>
             </el-form-item>
@@ -24,11 +12,7 @@
               <el-input size="medium" clearable v-model="form.info"></el-input>
             </el-form-item>
             <el-form-item>
-              <group-auths
-                @updateAuths="updateAuths"
-                @updateAllAuths="updateAllAuths"
-                ref="groupAuths"
-                title="分配权限">
+              <group-auths @updateAuths="updateAuths" @updateAllAuths="updateAllAuths" ref="groupAuths" title="分配权限">
               </group-auths>
             </el-form-item>
             <el-form-item class="submit">
@@ -118,7 +102,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 .container {
   .title {
     height: 59px;
