@@ -1,41 +1,51 @@
-import '@babel/polyfill'
 import Vue from 'vue'
-import ElementUI from 'element-ui'
 
-import '@lin/mixin'
-import '@lin/filter'
-import '@lin/plugins'
-import '@lin/directives'
+import Cookies from 'js-cookie'
 
-import CollapseTransition from 'element-ui/lib/transitions/collapse-transition'
-import StickyTop from '@c/base/sticky-top/sticky-top'
-import LIcon from '@c/base/icon/lin-icon'
-import SourceCode from '@c/base/source-code/source-code'
-import router from '@/router'
-import store from '@/store'
-import App from '@/App.vue'
+import 'normalize.css/normalize.css' // a modern alternative to CSS resets
 
-import '@/assets/styles/index.scss' // eslint-disable-line
-import '@/assets/styles/realize/element-variables.scss'
-import 'element-ui/lib/theme-chalk/display.css'
+import Element from 'element-ui'
+import './styles/element-variables.scss'
+
+import '@/styles/index.scss' // global css
+
+import App from './App'
+import store from './store'
+import router from './router'
+
+import './icons' // icon
+import './permission' // permission control
+import './utils/error-log' // error log
+
+import * as filters from './filters' // global filters
+
+/**
+ * If you don't want to use mock-server
+ * you want to use MockJs for mock api
+ * you can execute: mockXHR()
+ *
+ * Currently MockJs will be used in the production environment,
+ * please remove it before going online! ! !
+ */
+import { mockXHR } from '../mock'
+if (process.env.NODE_ENV === 'production') {
+  mockXHR()
+}
+
+Vue.use(Element, {
+  size: Cookies.get('size') || 'medium' // set element-ui default size
+})
+
+// register global utility filters
+Object.keys(filters).forEach(key => {
+  Vue.filter(key, filters[key])
+})
 
 Vue.config.productionTip = false
 
-Vue.use(ElementUI)
-
-Vue.component(CollapseTransition.name, CollapseTransition)
-
-// base 组件注册
-Vue.component('sticky-top', StickyTop)
-Vue.component('l-icon', LIcon)
-Vue.component('source-code', SourceCode)
-
-/* eslint no-unused-vars: 0 */
-const AppInstance = new Vue({
+new Vue({
+  el: '#app',
   router,
   store,
-  render: h => h(App),
-}).$mount('#app')
-
-// 设置 App 实例
-window.App = AppInstance
+  render: h => h(App)
+})

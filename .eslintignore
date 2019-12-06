@@ -1,6 +1,4 @@
-/builds/
-/public/
-/dist/
-/script/.cache
-/*.js
-/node_modules/
+build/*.js
+src/assets
+public
+dist
