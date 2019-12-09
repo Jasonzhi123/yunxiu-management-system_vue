@@ -6,7 +6,7 @@ function resolve(dir) {
   return path.join(__dirname, dir)
 }
 
-const name = defaultSettings.title || 'vue Element Admin' // page title
+const name = defaultSettings.title || '一起看系统' // page title
 
 // If your port is set to 80,
 // use administrator privileges to execute the command line.
@@ -55,7 +55,11 @@ module.exports = {
     name: name,
     resolve: {
       alias: {
-        '@': resolve('src')
+        '@': resolve('src'),
+        '@api': resolve('src/api'),
+        '@c': resolve('src/components'),
+        '@utils': resolve('src/utils'),
+        '@styles': resolve('src/styles'),
       }
     }
   },
@@ -104,7 +108,7 @@ module.exports = {
             .plugin('ScriptExtHtmlWebpackPlugin')
             .after('html')
             .use('script-ext-html-webpack-plugin', [{
-            // `runtime` must same as runtimeChunk name. default is `runtime`
+              // `runtime` must same as runtimeChunk name. default is `runtime`
               inline: /runtime\..*\.js$/
             }])
             .end()
