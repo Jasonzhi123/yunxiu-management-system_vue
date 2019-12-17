@@ -30,13 +30,14 @@ const mutations = {
 
 const actions = {
   // user login
-  login({ commit }, userInfo) {
+  login({ commit, dispatch }, userInfo) {
     const { username, password } = userInfo
     return new Promise((resolve, reject) => {
       login({ username: username.trim(), password: password }).then(response => {
         const { data } = response
         commit('SET_TOKEN', data.token)
         setToken(data.token)
+        // dispatch('getInfo')
         resolve()
       }).catch(error => {
         reject(error)
@@ -47,21 +48,21 @@ const actions = {
   // get user info
   getInfo({ commit, state }) {
     return new Promise((resolve, reject) => {
-      getInfo(state.token).then(response => {
+      getInfo().then(response => {
         const { data } = response
-
+        console.log(data)
         if (!data) {
-          reject('Verification failed, please Login again.')
+          reject('验证失败，请重新登录！')
         }
 
-        const { roles, name, avatar, introduction } = data
+        const { role, name, avatar, introduction } = data
 
         // roles must be a non-empty array
-        if (!roles || roles.length <= 0) {
-          reject('getInfo: roles must be a non-null array!')
+        if (!role || role.length <= 0) {
+          reject('获取用户角色失败')
         }
 
-        commit('SET_ROLES', roles)
+        commit('SET_ROLES', role)
         commit('SET_NAME', name)
         commit('SET_AVATAR', avatar)
         commit('SET_INTRODUCTION', introduction)
