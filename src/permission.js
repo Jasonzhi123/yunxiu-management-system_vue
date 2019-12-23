@@ -10,43 +10,37 @@ NProgress.configure({ showSpinner: false }) // NProgress Configuration
 
 const whiteList = ['/login', '/auth-redirect'] // no redirect whitelist
 
-router.beforeEach(async(to, from, next) => {
-  // start progress bar
-  NProgress.start()
+router.beforeEach(async (to, from, next) => {
+  NProgress.start() // 开始进程条
 
-  // set page title
-  document.title = getPageTitle(to.meta.title)
+  document.title = getPageTitle(to.meta.title)// 设置页面标题
 
-  // determine whether the user has logged in
+  // 确定用户是否已登录
   const hasToken = getToken()
 
   if (hasToken) {
     if (to.path === '/login') {
-      // if is logged in, redirect to the home page
+      // 如果已登录，请重定向到主页
       next({ path: '/' })
       NProgress.done()
     } else {
-      // determine whether the user has obtained his permission roles through getInfo
+      // 确定用户是否已通过getInfo获得其权限角色
       const hasRoles = store.getters.roles && store.getters.roles.length > 0
+      console.log(hasRoles)
       if (hasRoles) {
         next()
       } else {
         try {
-          // get user info
-          // note: roles must be a object array! such as: ['admin'] or ,['developer','editor']
-          const { roles } = await store.dispatch('user/getInfo')
-          console.log(roles)
-          // generate accessible routes map based on roles
-          const accessRoutes = await store.dispatch('permission/generateRoutes', roles)
+          const { roles } = await store.dispatch('user/getInfo') // 获取用户信息
 
-          // dynamically add accessible routes
-          router.addRoutes(accessRoutes)
+          const accessRoutes = await store.dispatch('permission/generateRoutes', roles)// 当前角色权限路由
 
-          // hack method to ensure that addRoutes is complete
-          // set the replace: true, so the navigation will not leave a history record
+          router.addRoutes(accessRoutes) // 动态添加可访问路由
+
+          // hack方法确保addRoutes是完整的replace:true，这样导航就不会留下历史记录
           next({ ...to, replace: true })
         } catch (error) {
-          // remove token and go to login page to re-login
+          // 移除token并转到登录页以重新登录
           await store.dispatch('user/resetToken')
           Message.error(error || 'Has Error')
           next(`/login?redirect=${to.path}`)

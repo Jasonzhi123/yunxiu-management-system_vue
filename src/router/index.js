@@ -80,12 +80,67 @@ export const constantRoutes = [
 ]
 
 /**
- * asyncRoutes
- * the routes that need to be dynamically loaded based on user roles
+ * 动态路由
+ * 需要根据用户角色动态加载的路由
  */
 export const asyncRoutes = [
-  // 404 page must be placed at the end !!!
-  { path: '*', redirect: '/404', hidden: true }
+  {
+    path: '/bookManagement',
+    name: 'bookManagement',
+    component: Layout,
+    redirect: '/bookManagement/createBook',
+    meta: { title: '图书管理', icon: 'documentation', roles: ['admin', 'editor'] },
+    children: [
+      {
+        name: 'createBook',
+        path: '/bookManagement/createBook',
+        component: () => import('@/views/bookManagement/createBook/index'),
+        meta: { title: '上传图书', icon: 'edit', roles: ['admin'] }
+      },
+      {
+        name: 'editBook',
+        path: '/bookManagement/editBook/:fileName',
+        component: () => import('@/views/bookManagement/editBook/index'),
+        hidden: true,
+        meta: { title: '编辑图书', icon: 'edit', roles: ['admin'], activeMenu: '/bookManagement/bookList' }
+      },
+      {
+        name: 'bookList',
+        path: '/bookManagement/bookList',
+        component: () => import('@/views/bookManagement/bookList/index'),
+        meta: { title: '图书列表', icon: 'list', roles: ['editor', 'admin'] }
+      }
+    ]
+  },
+  {
+    path: '/musicManagement',
+    name: 'musicManagement',
+    component: Layout,
+    redirect: '/musicManagement/songSheetList',
+    meta: { title: '音乐管理', icon: 'documentation', roles: ['admin', 'editor'] },
+    children: [
+      {
+        name: 'createBook',
+        path: '/musicManagement/songSheetList',
+        component: () => import('@/views/musicManagement/songSheetList/index'),
+        meta: { title: '歌单管理', icon: 'table', roles: ['admin'] }
+      },
+      {
+        name: 'editSongSheet',
+        path: '/musicManagement/editSongSheet/:fileName',
+        component: () => import('@/views/musicManagement/editSongSheet/index'),
+        hidden: true,
+        meta: { title: '编辑歌单', icon: 'edit', roles: ['admin'], activeMenu: '/musicManagement/editSongSheet' }
+      },
+      {
+        name: 'swiperList',
+        path: '/musicManagement/swiperList',
+        component: () => import('@/views/musicManagement/swiperList/index'),
+        meta: { title: '轮播图管理', icon: 'table', roles: ['editor', 'admin'] }
+      }
+    ]
+  },
+  { path: '*', redirect: '/404', hidden: true }// 404 page must be placed at the end !!!
 ]
 
 const createRouter = () => new Router({
@@ -96,7 +151,6 @@ const createRouter = () => new Router({
 
 const router = createRouter()
 
-// Detail see: https://github.com/vuejs/vue-router/issues/1234#issuecomment-357941465
 export function resetRouter() {
   const newRouter = createRouter()
   router.matcher = newRouter.matcher // reset router

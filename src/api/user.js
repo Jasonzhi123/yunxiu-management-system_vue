@@ -1,23 +1,13 @@
-import request from '@/utils/request'
+import { fetch } from '@/utils/request'
 
 export function login(data) {
-  return request({
-    url: '/user/login',
-    method: 'post',
-    data
-  })
+  return fetch('', '/user/login', 'post', data)
 }
 
 export function getInfo() {
-  return request({
-    url: '/user/info',
-    method: 'get'
-  })
+  return fetch('', '/user/info', 'get')
 }
 
 export function logout() {
-  return request({
-    url: '/user/logout',
-    method: 'post'
-  })
+  return fetch('', '/user/logout', 'post')
 }

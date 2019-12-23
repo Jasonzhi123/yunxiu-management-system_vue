@@ -47,9 +47,10 @@ const mutations = {
 }
 
 const actions = {
+  // 生产动态路由
   generateRoutes({ commit }, roles) {
     return new Promise(resolve => {
-      let accessedRoutes
+      let accessedRoutes = '' // 异步路由
       if (roles.includes('admin')) {
         accessedRoutes = asyncRoutes || []
       } else {

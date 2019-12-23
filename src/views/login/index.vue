@@ -2,7 +2,7 @@
   <div class="login-container">
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" autocomplete="on" label-position="left">
       <div class="title-container">
-        <h3 class="title">小慕读书</h3>
+        <h3 class="title">云袖管理系统</h3>
       </div>
       <el-form-item prop="username">
         <span class="svg-container">
@@ -10,7 +10,7 @@
         </span>
         <el-input ref="username" v-model="loginForm.username" placeholder="Username" name="username" type="text" tabindex="1" autocomplete="on"></el-input>
       </el-form-item>
-      <el-tooltip v-model="capsTooltip" content="Caps lock is On" placement="right" manual>
+      <el-tooltip v-model="capsTooltip" content="大写" placement="right" manual>
         <el-form-item prop="password">
           <span class="svg-container">
             <svg-icon icon-class="password" />
@@ -35,14 +35,14 @@ export default {
   data() {
     const validateUsername = (rule, value, callback) => {
       if (!validUsername(value)) {
-        callback(new Error('Please enter the correct user name'))
+        callback(new Error('请输入用户名称'))
       } else {
         callback()
       }
     }
     const validatePassword = (rule, value, callback) => {
       if (value.length < 5) {
-        callback(new Error('The password can not be less than 6 digits'))
+        callback(new Error('密码不能少于5位'))
       } else {
         callback()
       }
@@ -76,6 +76,7 @@ export default {
       immediate: true
     }
   },
+
   mounted() {
     if (this.loginForm.username === '') {
       this.$refs.username.focus()
@@ -83,7 +84,9 @@ export default {
       this.$refs.password.focus()
     }
   },
+
   methods: {
+    // 控制大小写
     checkCapslock({ shiftKey, key } = {}) {
       if (key && key.length === 1) {
         if (shiftKey && (key >= 'a' && key <= 'z') || !shiftKey && (key >= 'A' && key <= 'Z')) {
@@ -96,34 +99,31 @@ export default {
         this.capsTooltip = false
       }
     },
+    // 是否显示密码
     showPwd() {
-      if (this.passwordType === 'password') {
-        this.passwordType = ''
-      } else {
-        this.passwordType = 'password'
-      }
+      this.passwordType = this.passwordType === 'password' ? '' : this.passwordType = 'password'
       this.$nextTick(() => {
         this.$refs.password.focus()
       })
     },
+    // 登录
     handleLogin() {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true
-          this.$store.dispatch('user/login', this.loginForm)
-            .then(() => {
-              this.$router.push({ path: this.redirect || '/', query: this.otherQuery })
-              this.loading = false
-            })
-            .catch(() => {
-              this.loading = false
-            })
+          this.$store.dispatch('user/login', this.loginForm).then(() => {
+            this.$router.push({ path: this.redirect || '/', query: this.otherQuery })
+            this.loading = false
+          }).catch(() => {
+            this.loading = false
+          })
         } else {
           console.log('error submit!!')
           return false
         }
       })
     },
+    // 获取路由参数
     getOtherQuery(query) {
       return Object.keys(query).reduce((acc, cur) => {
         if (cur !== 'redirect') {
