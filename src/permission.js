@@ -1,14 +1,15 @@
 import router from './router'
 import store from './store'
 import { Message } from 'element-ui'
-import NProgress from 'nprogress' // progress bar
-import 'nprogress/nprogress.css' // progress bar style
-import { getToken } from '@/utils/auth' // get token from cookie
+import NProgress from 'nprogress'
+import 'nprogress/nprogress.css'
+
+import { getToken } from '@/utils/auth'
 import getPageTitle from '@/utils/get-page-title'
 
-NProgress.configure({ showSpinner: false }) // NProgress Configuration
+NProgress.configure({ showSpinner: false }) // 进度条配置
 
-const whiteList = ['/login', '/auth-redirect'] // no redirect whitelist
+const whiteList = ['/login', '/auth-redirect'] // 白名单
 
 router.beforeEach(async (to, from, next) => {
   NProgress.start() // 开始进程条
@@ -26,13 +27,12 @@ router.beforeEach(async (to, from, next) => {
     } else {
       // 确定用户是否已通过getInfo获得其权限角色
       const hasRoles = store.getters.roles && store.getters.roles.length > 0
-      console.log(hasRoles)
+
       if (hasRoles) {
         next()
       } else {
         try {
           const { roles } = await store.dispatch('user/getInfo') // 获取用户信息
-
           const accessRoutes = await store.dispatch('permission/generateRoutes', roles)// 当前角色权限路由
 
           router.addRoutes(accessRoutes) // 动态添加可访问路由
@@ -49,13 +49,11 @@ router.beforeEach(async (to, from, next) => {
       }
     }
   } else {
-    /* has no token*/
-
+    /* 没有token 判断是否在白名单内*/
     if (whiteList.indexOf(to.path) !== -1) {
-      // in the free login whitelist, go directly
-      next()
+      next() // 页面在白名单内，直接进去
     } else {
-      // other pages that do not have permission to access are redirected to the login page.
+      // 没有访问权限的其他页将重定向到登录页。
       next(`/login?redirect=${to.path}`)
       NProgress.done()
     }
@@ -63,6 +61,5 @@ router.beforeEach(async (to, from, next) => {
 })
 
 router.afterEach(() => {
-  // finish progress bar
-  NProgress.done()
+  NProgress.done()// 完成进度条
 })

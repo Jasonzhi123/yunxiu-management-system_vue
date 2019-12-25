@@ -1,5 +1,5 @@
 module.exports = {
-  title: '一起看后台管理系统',
+  title: '云袖管理系统',
 
   /**
    * @type {boolean} true | false
