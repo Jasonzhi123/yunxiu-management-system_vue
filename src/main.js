@@ -16,8 +16,10 @@ import router from './router'
 import './icons' // icon
 import './permission' // permission control
 import './utils/error-log' // error log
-
+import VueParticles from 'vue-particles'
 import * as filters from './filters' // global filters
+
+Vue.use(VueParticles)
 
 Vue.use(Element, {
   size: Cookies.get('size') || 'medium' // set element-ui default size

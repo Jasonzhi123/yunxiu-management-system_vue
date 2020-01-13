@@ -1,5 +1,7 @@
 <template>
   <div class="login-container">
+    <vue-particles class="particles-box" color="#454545" :particleOpacity="0.7" :particlesNumber="80" shapeType="circle" :particleSize="4" linesColor="#454545" :linesWidth="1" :lineLinked="true" :lineOpacity="0.4" :linesDistance="150" :moveSpeed="3" :hoverEffect="true" hoverMode="grab" :clickEffect="true" clickMode="push"></vue-particles>
+
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" autocomplete="on" label-position="left">
       <div class="title-container">
         <h3 class="title">云袖管理系统</h3>
@@ -253,5 +255,12 @@ $light_gray: #eee;
       display: none;
     }
   }
+}
+.particles-box {
+  position: fixed;
+  // z-index: -1;
+  width: 100%;
+  height: 100%;
+  // background: pink;
 }
 </style>
