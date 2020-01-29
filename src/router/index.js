@@ -140,6 +140,21 @@ export const asyncRoutes = [
       }
     ]
   },
+  {
+    path: '/blogManagement',
+    name: 'blogManagement',
+    component: Layout,
+    redirect: '/blogManagement/blogList',
+    meta: { title: '博客管理', icon: 'documentation', roles: ['admin', 'editor'] },
+    children: [
+      {
+        name: 'blogList',
+        path: '/blogManagement/blogList',
+        component: () => import('@/views/blogManagement/blogList/index'),
+        meta: { title: '博客列表', icon: 'table', roles: ['admin'] }
+      }
+    ]
+  },
   { path: '*', redirect: '/404', hidden: true }// 404 page must be placed at the end !!!
 ]
 

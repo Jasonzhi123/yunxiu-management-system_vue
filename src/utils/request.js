@@ -9,7 +9,8 @@ const service = axios.create({
 })
 
 export const apiGetway = {
-  demo: 'http://192.168.131.11:9081'
+  demo: 'http://192.168.131.11:9081',
+  koaApi: 'http://localhost:30001'
 }
 
 service.interceptors.request.use(

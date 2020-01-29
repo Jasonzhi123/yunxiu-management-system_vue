@@ -36,18 +36,15 @@ module.exports = {
       warnings: false,
       errors: true
     },
-    // proxy: {
-    //   // change xxx-api/login => mock/login
-    //   // detail: https://cli.vuejs.org/config/#devserver-proxy
-    //   [process.env.VUE_APP_BASE_API]: {
-    //     target: `http://127.0.0.1:${port}/mock`,
-    //     changeOrigin: true,
-    //     pathRewrite: {
-    //       ['^' + process.env.VUE_APP_BASE_API]: ''
-    //     }
-    //   }
-    // },
-    // after: require('./mock/mock-server.js')
+    proxy: { // 配置跨域
+      // '/koaApi': {
+      //   target: 'http://localhost:30001/',
+      //   changOrigin: true, // 是否开启代理
+      //   pathRewrite: {
+      //     '^/koaApi': '/'
+      //   }
+      // }
+    }
   },
   configureWebpack: {
     // provide the app's title in webpack's name field, so that
@@ -59,7 +56,7 @@ module.exports = {
         '@api': resolve('src/api'),
         '@c': resolve('src/components'),
         '@utils': resolve('src/utils'),
-        '@styles': resolve('src/styles'),
+        '@styles': resolve('src/styles')
       }
     }
   },
