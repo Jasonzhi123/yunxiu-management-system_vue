@@ -19,16 +19,23 @@
 
     <!-- 确认删除的对话框 -->
     <el-dialog title="提示" :visible.sync="delDialogVisible" width="30%">
-      <span>确定删除该歌单吗</span>
+      <el-form ref="form" :model="songSheetDetail" label-width="80px">
+        <el-form-item label="歌单名称">
+          <el-input v-model="songSheetDetail.name"></el-input>
+        </el-form-item>
+        <el-form-item label="描述">
+          <el-input v-model="songSheetDetail.copywriter"></el-input>
+        </el-form-item>
+      </el-form>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="delDialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="doDel">确 定</el-button>
+        <el-button type="primary" @click="updataFormData">更新</el-button>
+        <el-button @click="delDialogVisible = false">取消</el-button>
       </span>
     </el-dialog>
   </div>
 </template>
 <script>
-import { getSongSheetList, deleteSongSheetDetail } from '@api/musicManagement/songSheetList'
+import { getSongSheetList, deleteSongSheetDetail, getSongSheetDetail, updateSongSheetListDetail } from '@api/musicManagement/songSheetList'
 import scroll from '@utils/scroll.js'
 
 export default {
@@ -38,7 +45,8 @@ export default {
       count: 20,
       loading: false,
       delDialogVisible: false, // 删除歌单的对话框是否显示
-      info: {}
+      info: {},
+      songSheetDetail: {}// 歌单详情
     }
   },
   created() {
@@ -57,18 +65,47 @@ export default {
       console.log(res)
       this.loading = false
       this.songSheetList = this.songSheetList.concat(res.musiclist)
-      console.log(this.songSheetList)
       if (res.musiclist.length < this.count) {
         scroll.end()
       }
     },
-    onEdit(row) {
-      console.log('编辑', row)
-    },
-    onDel(row) {
+    async onEdit(row) {
+      const res = await getSongSheetDetail({ id: row._id })
+      this.songSheetDetail = res.detail
       this.delDialogVisible = true
-      this.info.id = row._id
     },
+    // 更新歌单信息
+    async updataFormData() {
+      const res = await updateSongSheetListDetail(this.songSheetDetail)
+      if (res.data.modified > 0 && res.code === 0) {
+        this.$message({
+          message: '更新成功',
+          type: 'success'
+        })
+        this.delDialogVisible = false
+        this.songSheetList = []
+        this.getList()
+      } else {
+        this.$message.error('更新失败')
+      }
+    },
+    // 点击删除
+    onDel(row) {
+      this.info.id = row._id
+      this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.doDel()
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        })
+      })
+    },
+    // 删除歌单
     doDel() {
       deleteSongSheetDetail({ id: this.info.id }).then(res => {
         this.delDialogVisible = false

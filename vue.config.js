@@ -37,13 +37,13 @@ module.exports = {
       errors: true
     },
     proxy: { // 配置跨域
-      // '/koaApi': {
-      //   target: 'http://localhost:30001/',
-      //   changOrigin: true, // 是否开启代理
-      //   pathRewrite: {
-      //     '^/koaApi': '/'
-      //   }
-      // }
+      '/koaApi': {
+        target: 'http://localhost:30001/',
+        changOrigin: true, // 是否开启代理
+        pathRewrite: {
+          '^/koaApi': '/'
+        }
+      }
     }
   },
   configureWebpack: {

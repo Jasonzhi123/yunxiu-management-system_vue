@@ -12,3 +12,7 @@ export function getSongSheetDetail(params) {
 export function deleteSongSheetDetail(params) {
   return fetch('koaApi', `/wxCloud/songSheet/delete?id=${params.id}`, 'get')
 }
+// 更新歌单详情
+export function updateSongSheetListDetail(params) {
+  return fetch('koaApi', `/wxCloud/songSheet/updateSongSheetList`, 'post', params)
+}
